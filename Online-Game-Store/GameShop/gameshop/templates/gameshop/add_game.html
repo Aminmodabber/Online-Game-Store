@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Game settings
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+	<form class="form-horizontal" action="" method="POST">
+		{% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    <span class="controls">
+                        {{ field }}
+                    </span>
+                </div>
+                {% endfor %}
+                <div class="form-group" style="padding:10px;">
+                    <div class="controls">
+                        <button type="submit" class="btn">Save</button>
+                    </div>
+                </div>
+	</form>
+</div>
+{% endblock %}

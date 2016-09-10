@@ -1,0 +1,36 @@
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                       
+        </button>
+        <a class="navbar-brand" href="{% url 'shop:index' %}">SKELETOR GAMESHOP</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+            <form method="post" action="{% url 'shop:search' %}" class="navbar-form navbar-left" role="search">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" class="form-control" name="search" placeholder="Search"/>
+              </div>
+              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+              </button>
+            </form>  
+            <li><a href="{% url 'shop:shop' %}">GAME SHOP</a></li>
+            {% if user.developer %}
+            <li><a href="{% url 'shop:developer' %}">DEVELOPER</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <!--<li><a href="/play">PLAY</a></li>-->
+            <li><a href="{% url 'shop:profile' %}">PROFILE</a></li>
+            <li><a href="{% url 'logout' %}?next=/">LOGOUT</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">LOGIN</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

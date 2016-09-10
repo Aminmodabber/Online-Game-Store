@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+{{ game.name }}
+{% endblock %}
+
+{% block navigation %}
+{% include "navigation.html" %}
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+/* global $ */
+$(document).ready(function() {
+    'use strict';
+    $(window).on('message', function(evt) {
+        //Note that only messages from game.source are accepted
+        var origin = evt.origin || evt.originalEvent.origin;
+        var game_origin = '{{ game.source }}'.split('/');
+        game_origin.pop();
+        if (origin !== game_origin.join('/'))
+            return;
+
+        //Get data from sent message
+        var data = evt.originalEvent.data;
+        var messageType=data.messageType;
+          
+        if (messageType === 'SAVE'){
+            var tmp = { messageType: messageType,
+                gameState : JSON.stringify(data.gameState)};
+            data = tmp;
+            }
+
+        $.ajax({
+            url:'',
+            data: data,
+            type: 'get',
+            success: function(result) {
+                if (result.messageType === 'LOAD'){
+                    evt.originalEvent.source.postMessage(result, "*")
+                    }
+                }
+            });
+
+        if (messageType==='SCORE') {
+            $('#tableContainer').load("{% url 'shop:play' game.id %}");
+        }
+        
+        else if (messageType==='SETTING') {
+            // set iframe size
+            $('#game_iframe').css('width', data.options['width'])
+            $('#game_iframe').css('height', data.options['height'])
+        }
+    });
+});
+</script>
+
+<div class="container-fluid bg-1 text-center" style="heigth:100%;">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="text-center">
+                <h1>{{ game.name }}</h1>
+                <p>{{ game.description }}</p>
+            </div>
+            <iframe class="bg-3" id="game_iframe" src="{{game.source}}"></iframe>
+        </div>
+        <div class="col-md-4" id="tableContainer">
+            {% include "gameshop/game_scores.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

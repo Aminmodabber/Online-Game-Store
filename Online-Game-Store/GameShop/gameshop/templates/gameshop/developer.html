@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Developer
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+    <div class="table-responsive col-md-8 col-md-offset-2">
+        <h1 class="text-left">GAMES</h1>
+        <p class="text-left">
+            <a href="{% url 'shop:add' %}"><span class="btn btn-default glyphicon glyphicon-upload"></span></a>
+            Upload a new game.
+        </p>
+
+        {% if inventory %}
+
+        <table class="table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Game statistics</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in inventory %}
+                <tr>
+                    <td>{{game.name}}</td>
+                    <td>{{game.description}}</td>
+                    <td><a href="{% url 'shop:statistics' game.id %}">See full stats</a>Total sales: {{game.overall_sales}}€ - Units sold: {{game.units_sold}}</td>
+
+                        <td>
+                            <a href="{% url 'shop:modify' game.id %}"><span class="btn btn-default glyphicon glyphicon-cog"></span></a>
+                            <a href="{% url 'shop:remove' game.id %}"><span class="btn btn-default glyphicon glyphicon-trash"></span></a>
+                        </td>
+
+                        {% endfor %}
+                        {% else %}
+                        You have not added any games yet. 
+                        {% endif %}
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>   
+    </div>
+    {% endblock %}

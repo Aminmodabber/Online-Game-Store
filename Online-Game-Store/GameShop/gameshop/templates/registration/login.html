@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+{% if error == "This account is inactive." %}
+<p>You need to verify your email. Get <a href="{% url 'shop:verify' %}">a link</a> now.</p>
+{% else %}
+<p>{{ error }}</p>
+{% endif %}
+{% endfor %}
+{% elif form.errors  %}
+<p>Please enter a correct username and password. Note that both fields may be case-sensitive.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<div id="login"> 
+        <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <div class="controls">
+                <input type="text" id="username" name="username"  placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="controls">
+                <input type="password" name="password" id="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group" style="padding:10px;">
+            <div class="controls">
+                <button type="submit" class="btn">Login</button>
+            </div>
+        </div>
+        </form>
+<p><a href="{% url 'shop:register' %}">Register a new account</a></p>
+</div>
+</div>
+{% endblock %}

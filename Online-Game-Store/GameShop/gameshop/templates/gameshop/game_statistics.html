@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Statistics of {{ game.name }}
+{% endblock %}
+
+{% block navigation %}
+{% include "navigation.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+    <h1>Selling log of {{ game.name }}</h1>
+    <div class="col-md-4 col-md-offset-4">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Price</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for stat in statistics %}
+                    <tr>
+                        <td>{{ stat.gamePrice }}€</td>
+                        <td>{{ stat.timeBought }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

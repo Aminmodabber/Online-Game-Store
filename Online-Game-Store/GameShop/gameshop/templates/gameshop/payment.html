@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Payment service
+{% endblock %}
+
+
+
+{% block content %}
+<script>
+    $(document).ready(function(){
+    $("form").submit();
+    });
+</script>
+<div class="container-fluid bg-1 text-center">
+    Redirecting to Payment Service.
+    <form action="http://payments.webcourse.niksula.hut.fi/pay/" method="POST">
+        {{ form }}
+        <input type='submit' value='Buy' style="display:none"/>
+    </form>
+</div>
+{% endblock %}

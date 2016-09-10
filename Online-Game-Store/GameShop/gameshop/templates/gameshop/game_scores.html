@@ -1,0 +1,16 @@
+<table id='Scores'>
+    <caption>
+	Leaderboard
+    </caption>
+{% if scores %}
+    <tbody>
+    {% for score in scores %}
+        <tr>
+            <td>{{forloop.counter}}.</td>
+            <td>{{score.user.username}}</td>
+            <td>{{score.points}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>	
+{% endif %}
+</table>

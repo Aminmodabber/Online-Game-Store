@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+Verify Email
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+
+{% if not link_sended %}
+<div id="verify"> 
+    <p>Give your username and verification link will be sent to your email.</p>
+        <form class="form-horizontal" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <div class="controls">
+                <input type="text" id="username" name="username"  placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group" style="padding:10px;">
+            <div class="controls">
+                <button type="submit" class="btn">Send link</button>
+            </div>
+        </div>
+        </form>
+    </div>
+{% else %}
+<p>Link has been sended to your email.</p>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Register
+{% endblock %}
+
+
+{% block content %}
+    <!-- First Container -->
+    <div class="container-fluid bg-1 text-center">
+        <div> 
+            <form class="form-horizontal" action="" method="post"> 
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                <span class="controls">
+                    {{ field }}
+                </span>
+            </div>
+            {% endfor %}
+            <div class="form-group" style="padding:10px;">
+                <div class="controls">
+                    <button type="submit" class="btn">Register</button>
+                </div>
+            </div>
+            </form>
+    </div>
+    </div>
+{% endblock %}

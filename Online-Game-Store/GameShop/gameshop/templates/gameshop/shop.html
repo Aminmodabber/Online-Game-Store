@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+GameShop
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+    {% if games %}
+    <div class="table-responsive col-md-8 col-md-offset-2">
+        <h1 class="text-left">GAMES</h1>
+        <table class="table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Description</th>
+                    <th>Publisher</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td> {{ game.name }} </td>
+                    <td> {{ game.get_genre_display }} </td>
+                    <td> {{ game.description }} </td>
+                    <td> {{ game.publisher }} </td>
+                    {% if game in user.gamer.library.all %}
+                    <td>
+                        <a href="{% url 'shop:play' game.id %}"><span class="btn btn-default">Play</span></a>
+                    </td>
+                    {% elif user.is_authenticated %}
+                    <td>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input id="id_game_id" name="game_id" type="hidden" value="{{ game.id }}" />
+                            <button type="submit" class="btn btn-default">{{game.price}}<span class="glyphicon glyphicon-euro"></span>
+                            </button>
+                        </form>
+                    </td>   
+                    {% else %}
+                    <td>
+                        <a href="{% url 'shop:index' %}"><span class="btn btn-default glyphicon glyphicon-log-in"></span></a>
+                    </td>
+                    {% endif %}
+
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    The store is empty at the moment.
+    {% endif %}
+</div>
+{% endblock %}
+
